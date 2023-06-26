@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.mjs input.txt",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./MartianRobots",
-    "test:dev": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./MartianRobots --watchAll"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js .",
+    "test:dev": "node --experimental-vm-modules node_modules/jest/bin/jest.js . --watchAll"
   },
   "keywords": [],
   "author": "",
