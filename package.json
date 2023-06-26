@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.mjs input.txt",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js .",
-    "test:dev": "node --experimental-vm-modules node_modules/jest/bin/jest.js . --watchAll"
+    "test:dev": "npm run test -- --watchAll"
   },
   "keywords": [],
   "author": "",
