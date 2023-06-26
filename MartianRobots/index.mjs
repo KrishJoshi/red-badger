@@ -33,25 +33,27 @@ export default class MartianRobots {
   }
 
   processInstructions(robot, instructions) {
-    instructions.split('').forEach((instruction) => {
+    instructions.split('').every((instruction) => {
       if (instruction === 'F') {
-        const currentPos = { x: robot.x, y: robot.y };
+        const currentPosX = robot.x;
+        const currentPosY = robot.y;
         robot.moveForward();
+
         if (this.hasRobotFallenOff(robot)) {
-          if (!this.isLost(robot.x, robot.y)) {
+          robot.x = currentPosX;
+          robot.y = currentPosY;
+          if (!this.isRobotLost(robot.x, robot.y)) {
             robot.isLost = true;
             this.lostRobots.push(robot);
-          } else {
-            robot.x = currentPos.x;
-            robot.y = currentPos.y;
+            return false
           }
-
         }
       } else if (instruction === 'L') {
         robot.turnLeft();
       } else if (instruction === 'R') {
         robot.turnRight();
       }
+      return true;
     });
     return robot;
   }
@@ -69,7 +71,7 @@ export default class MartianRobots {
   }
 
   // robot is lost if it has fallen off and there is already a lost robot at that position
-  isLost(x, y) {
+  isRobotLost(x, y) {
     return this.lostRobots.some((robot) => robot.x === x && robot.y === y);
   }
 }
