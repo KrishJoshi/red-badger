@@ -52,18 +52,4 @@ describe('Robot', () => {
       })
     })
   })
-
-  describe('processInstructions', () => {
-    it('should correctly process a set of instructions', () => {
-      const robot = new Robot({ x: 0, y: 0, orientation: 'N' })
-      robot.processInstructions('R')
-      expect(robot.x).toBe(0)
-      expect(robot.y).toBe(0)
-      expect(robot.orientation).toBe('E')
-      robot.processInstructions('F')
-      expect(robot.x).toBe(1)
-      expect(robot.y).toBe(0)
-      expect(robot.orientation).toBe('E')
-    })
-  })
 })

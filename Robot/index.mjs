@@ -3,6 +3,7 @@ export default class Robot {
     this.x = x;
     this.y = y;
     this.orientation = orientation;
+    this.isLost = false;
   }
 
   moveForward() {
@@ -38,14 +39,6 @@ export default class Robot {
   }
 
   processInstructions (instructions) {
-    instructions.split('').forEach((instruction) => {
-      if (instruction === 'F') {
-        this.moveForward()
-      } else if (instruction === 'L') {
-        this.turnLeft()
-      } else if (instruction === 'R') {
-        this.turnRight()
-      }
-    })
+
   }
 }

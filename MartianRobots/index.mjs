@@ -1,39 +1,75 @@
-import Robot from '../Robot/index.mjs'
+import Robot from '../Robot/index.mjs';
 
 export default class MartianRobots {
-  constructor (input) {
-    this.convertTextToInput(input)
+  constructor(input) {
+    this.convertTextToInput(input);
   }
 
-  convertTextToInput (input) {
-    // split each line and remove empty line
-    const lines = input.split('\n').filter((line) => line !== '')
+  convertTextToInput(input) {
+    this.lostRobots = [];
 
-    const [gridSizeX, gridSizeY] = lines[0].split(' ').map((num) => parseInt(num))
-    const robots = []
+    // split each line and remove empty line
+    const lines = input.split('\n').filter((line) => line !== '');
+
+    const [gridSizeX, gridSizeY] = lines[0].split(' ').map((num) => parseInt(num));
+    this.gridSizeX = gridSizeX;
+    this.gridSizeY = gridSizeY;
+
+    const robots = [];
 
     for (let i = 1; i < lines.length; i += 2) {
-      const [x, y, orientation] = lines[i].split(' ')
+      const [x, y, orientation] = lines[i].split(' ');
       const instructions = lines[i + 1];
-      const robot = new Robot({
+      let robot = new Robot({
         x: Number(x),
         y: Number(y),
         orientation,
-      })
-      robot.processInstructions(instructions)
-      robots.push(robot)
+      });
+      robot = this.processInstructions(robot, instructions);
+      robots.push(robot);
     }
 
-    this.gridSizeX = gridSizeX
-    this.gridSizeY = gridSizeY
-    this.robots = robots
+    this.robots = robots;
   }
 
+  processInstructions(robot, instructions) {
+    instructions.split('').forEach((instruction) => {
+      if (instruction === 'F') {
+        const currentPos = { x: robot.x, y: robot.y };
+        robot.moveForward();
+        if (this.hasRobotFallenOff(robot)) {
+          if (!this.isLost(robot.x, robot.y)) {
+            robot.isLost = true;
+            this.lostRobots.push(robot);
+          } else {
+            robot.x = currentPos.x;
+            robot.y = currentPos.y;
+          }
 
-
-  getRobotState () {
-    return this.robots.map((robot) => (`${robot.x} ${robot.y} ${robot.orientation}`)).join('\n')
+        }
+      } else if (instruction === 'L') {
+        robot.turnLeft();
+      } else if (instruction === 'R') {
+        robot.turnRight();
+      }
+    });
+    return robot;
   }
 
-  getRobotsState
+  getRobotState() {
+    return this.robots
+      .map((robot) => `${robot.x} ${robot.y} ${robot.orientation}${robot.isLost ? ' LOST' : ''}`)
+      .join('\n');
+  }
+
+  hasRobotFallenOff(robot) {
+    return (
+      robot.x < 0 || robot.x > this.gridSizeX || robot.y < 0 || robot.y > this.gridSizeY
+    );
+  }
+
+  // robot is lost if it has fallen off and there is already a lost robot at that position
+  isLost(x, y) {
+    return this.lostRobots.some((robot) => robot.x === x && robot.y === y);
+  }
 }
