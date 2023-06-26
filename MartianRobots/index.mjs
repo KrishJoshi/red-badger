@@ -8,7 +8,7 @@ export default class MartianRobots {
   convertTextToInput(input) {
     this.lostRobots = [];
 
-    // split each line and remove empty line
+    // Split each line and remove empty lines
     const lines = input.split('\n').filter((line) => line !== '');
 
     const [gridSizeX, gridSizeY] = lines[0].split(' ').map((num) => parseInt(num));
@@ -35,17 +35,15 @@ export default class MartianRobots {
   processInstructions(robot, instructions) {
     instructions.split('').every((instruction) => {
       if (instruction === 'F') {
-        const currentPosX = robot.x;
-        const currentPosY = robot.y;
+        const posBeforeMove = { x: robot.x, y: robot.y };
         robot.moveForward();
-
         if (this.hasRobotFallenOff(robot)) {
-          robot.x = currentPosX;
-          robot.y = currentPosY;
-          if (!this.isRobotLost(robot.x, robot.y)) {
+          robot.x = posBeforeMove.x;
+          robot.y = posBeforeMove.y;
+          if (!this.isPosScented(robot.x, robot.y)) {
             robot.isLost = true;
             this.lostRobots.push(robot);
-            return false
+            return false; // robot already lost, no need to continue
           }
         }
       } else if (instruction === 'L') {
@@ -70,8 +68,8 @@ export default class MartianRobots {
     );
   }
 
-  // robot is lost if it has fallen off and there is already a lost robot at that position
-  isRobotLost(x, y) {
+  // a position is scented if there is a lost robot at that position
+  isPosScented(x, y) {
     return this.lostRobots.some((robot) => robot.x === x && robot.y === y);
   }
 }
