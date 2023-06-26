@@ -4,9 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.mjs input.txt",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./MartianRobots",
+    "test:dev": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./MartianRobots --watchAll"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.5.0"
+  },
+  "type": "module"
 }
