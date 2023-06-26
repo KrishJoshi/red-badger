@@ -22,4 +22,4 @@ Subsequently, utility functions such as `hasRobotFallenOff` and `isPosScented` c
 Moreover, a separate Grid class should be introduced to isolate the grid-related logic from the robot logic and an Input class should be implemented to handle the conversion of the text file into an array of strings, ensuring separation from the robot logic.
 
 ## Assumptions
-I didn't add any validations and it is assumed that input will always be valid and in the correct format. The cordinates will be less then 50 and instructions will be less than 100 characters in length.
+I didn't add any validations and it is assumed that input will always be valid and in the correct format. The coordinates will be less then 50 and instructions will be less than 100 characters in length.
